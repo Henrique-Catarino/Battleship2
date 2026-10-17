@@ -13,7 +13,7 @@ public class Main
 	public static void main(String[] args)
     {
 		System.out.println("***  Battleship  ***");
-
+		GameTimer gameTimer = new GameTimer();
 		Tasks.menu();
     }
 }

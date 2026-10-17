@@ -32,6 +32,7 @@ public class Tasks {
 	private static final String MAPA = "mapa";
 	private static final String STATUS = "estado";
 	private static final String SIMULA = "simula";
+	private static final String TEMPO = "tempo"; // Constante adicionada
 
 	/**
 	 * This task also tests the fighting element of a round of three shots
@@ -40,6 +41,7 @@ public class Tasks {
 
 		IFleet myFleet = null;
 		IGame game = null;
+		GameTimer gameTimer = new GameTimer(); // Instanciação do cronómetro
 		menuHelp();
 
 		System.out.print("> ");
@@ -50,11 +52,13 @@ public class Tasks {
 			switch (command) {
 				case GERAFROTA:
 					myFleet = Fleet.createRandom();
+					gameTimer.startGame();
 					game = new Game(myFleet);
 					game.printMyBoard(false, true);
 					break;
 				case LEFROTA:
 					myFleet = buildFleet(in);
+					gameTimer.startGame();
 					game = new Game(myFleet);
 					game.printMyBoard(false, true);
 					break;
@@ -68,14 +72,18 @@ public class Tasks {
 					break;
 				case RAJADA:
 					if (game != null) {
+						gameTimer.startTurn();
 						game.readEnemyFire(in);
 						myFleet.printStatus();
 						game.printMyBoard(true, false);
 
 						if (game.getRemainingShips() == 0) {
+							gameTimer.endTurn();
+							gameTimer.showFinalSummary();
 							game.over();
 							System.exit(0);
 						}
+						gameTimer.endTurn();
 					}
 					break;
 				case SIMULA:
@@ -101,15 +109,21 @@ public class Tasks {
 					if (game != null)
 						game.printMyBoard(true, true);
 					break;
-                case AJUDA:
-                    menuHelp();
-                    break;
+				case AJUDA:
+					menuHelp();
+					break;
+				case TEMPO:
+					gameTimer.showStatus();
+					break;
 				default:
 					System.out.println("Que comando é esse??? Repete ...");
 			}
 			System.out.print("> ");
 			command = in.next();
 		}
+
+		// Resumo de tempo quando o utilizador sai através do comando "desisto"
+		gameTimer.showFinalSummary();
 		System.out.println(GOODBYE_MESSAGE);
 	}
 
@@ -124,11 +138,13 @@ public class Tasks {
 		System.out.println("- " + STATUS + ": Mostra o status atual da frota.)");
 		System.out.println("- " + MAPA + ": Exibe o mapa da frota.");
 		System.out.println("- " + RAJADA + ": Realiza uma rajada de disparos.");
+		System.out.println("- " + TEMPO + ": Mostra as estatísticas e duração das jogadas."); // Adicionado ao menu
 		System.out.println("- " + SIMULA + ": Simula um jogo completo.");
 		System.out.println("- " + TIROS + ": Lista os tiros válidos realizados (* = tiro em navio, o = tiro na água)");
 		System.out.println("- " + DESISTIR + ": Encerra o jogo.");
 		System.out.println("===============================================================");
 	}
+
 	/**
 	 * This operation allows the build up of a fleet, given user data
 	 *
@@ -226,5 +242,4 @@ public class Tasks {
 			throw new IllegalArgumentException("Formato inválido. Use 'A3', 'A 3' ou similar.");
 		}
 	}
-
 }
