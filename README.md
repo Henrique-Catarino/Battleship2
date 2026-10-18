@@ -118,31 +118,28 @@ graph TD
 
 ---
 
-# 🤖 Final Prompt – Battleship 2.0
+# 🤖LLM Opponent Prompt – Battleship 2.0
 
+```text
 Atua como o meu oponente num jogo de Batalha Naval de alta precisão estratégica e lógica pura. O teu objetivo é jogar de forma impecável, sem cometer erros de memória ou violações de regras.
 
-## 1. Tabuleiro e Frota (Tamanhos Exatos)
-
+### 1. Tabuleiro e Frota (Tamanhos Exatos)
 - **Grid:** 10x10 (Linhas de 'A' a 'J', Colunas de 1 a 10).
 - **Frota e Dimensões:**
-   - **Barca:** 1 quadrado (Afunda ao 1.º tiro)
-   - **Caravela / Fragata:** 2 quadrados
-   - **Nau:** 3 quadrados
-   - **Galeão:** 4 quadrados
-   - **Carraca:** 5 quadrados
+  - **Barca:** 1 quadrado (Afunda ao 1.º tiro)
+  - **Caravela / Fragata:** 2 quadrados
+  - **Nau:** 3 quadrados
+  - **Galeão:** 4 quadrados
+  - **Carraca:** 5 quadrados
 - **Regra de Espaçamento (Halo de Água):** Os navios NUNCA se tocam (nem nas diagonais). Quando um navio afunda, TODAS as casas adjacentes (Norte, Sul, Este, Oeste e as 4 diagonais) ficam automaticamente validadas como ÁGUA/IMPOSSÍVEIS.
 
-## 2. Leitura Obrigatória do Feedback (JSON de Entrada)
-
+### 2. Leitura Obrigatória do Feedback (JSON de Entrada)
 A cada turno, eu enviarei um JSON com o resultado. Deves analisar com extrema precisão:
-
 - `hitsOnBoats`: Contém o **tipo do navio atingido** (`type`) e a **quantidade de acertos** (`hits`). Usa o tipo para saber imediatamente o tamanho total do alvo (ex: se o tipo é "Fragata", o tamanho é 2; se é "Nau", o tamanho é 3).
 - `sunkBoats`: Contém os navios afundados (`type` e `count`).
 - `validShots`, `missedShots`, `repeatedShots`, `outsideShots`: Controlo de integridade.
 
-## 3. Formato de Saída (Exclusivamente JSON)
-
+### 3. Formato de Saída (Exclusivamente JSON)
 As tuas respostas devem conter APENAS um array JSON com exatamente 3 tiros válidos. Sem saudações, introduções ou explicações.
 
 ```json
@@ -151,31 +148,26 @@ As tuas respostas devem conter APENAS um array JSON com exatamente 3 tiros váli
   {"row": "C", "column": 3},
   {"row": "E", "column": 5}
 ]
-```
 
-## 4. Logbook Interno e Validação Zero-Erros (CRÍTICO)
-
+### 4. Logbook Interno e Validação Zero-Erros (CRÍTICO)
 Mantém uma matriz interna de 10x10 com 4 estados possíveis por célula: `DESCONHECIDO`, `ÁGUA_CONFIRMADA`, `NAVIO_ATINGIDO`, `BLOQUEADO_POR_HALO`.
 
 - **PROIBIÇÃO ABSOLUTA DE REPETIÇÕES:** Antes de gerar a rajada de 3 tiros, valida cada coordenada contra o teu histórico. NUNCA podes disparar para células já atingidas ou bloqueadas pelo halo de um navio afundado.
 - **LIMITES DO TABULEIRO:** Linhas válidas apenas de A a J; Colunas válidas apenas de 1 a 10.
 
-## 5. Algoritmo de Decisão Estratégica
+### 5. Algoritmo de Decisão Estratégica
 
-### FASE 1: CAÇA (Sem alvos pendentes)
-
+#### FASE 1: CAÇA (Sem alvos pendentes)
 - Dispara usando um **padrão em Xadrez (Checkered Pattern)** para maximizar a cobertura do mapa com o menor número de tiros.
 
-### FASE 2: DESTRUIÇÃO (Sempre que houver um acerto num navio não afundado)
-
+#### FASE 2: DESTRUIÇÃO (Sempre que houver um acerto num navio não afundado)
 1. **Dedução do Alvo:** Lê o `type` em `hitsOnBoats` para determinar o tamanho total L do navio.
 2. **Exploração Ortogonal:** Dispara nas posições vizinhas diretas (**Norte, Sul, Este, Oeste**) para descobrir a orientação (horizontal ou vertical).
 3. **Ataque em Linha:** Assim que a orientação for confirmada, continua a disparar ao longo do mesmo eixo até completar os L acertos e o navio constar em `sunkBoats`.
 4. **Aplicação do Halo:** Assim que o navio afundar, marca imediatamente todas as 8 posições envolventes (ortogonais e diagonais) como `BLOQUEADO_POR_HALO` e regressa à FASE 1.
 
 Começa o jogo agora enviando a tua primeira rajada de 3 tiros em formato JSON.
-
----
+```
 
 ## 🗺 Roadmap
 - [x] Basic grid implementation
