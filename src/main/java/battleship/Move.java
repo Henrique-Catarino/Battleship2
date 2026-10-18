@@ -95,7 +95,7 @@ public class Move implements IMove {
 			}
 		}
 
-		// Determinar número de tiros fora do tabuleiro
+		// Determinar número de tiros fora do tabuleiro (corrigido)
 		int outsideShots = Game.NUMBER_SHOTS - validShots - repeatedShots;
 
 		if (verbose) {
@@ -106,7 +106,7 @@ public class Move implements IMove {
 				output.append(repeatedShots).append(" tiro").append(repeatedShots > 1 ? "s" : "").append(" repetido").append(repeatedShots > 1 ? "s" : "");
 			} else {
 				if (validShots > 0) {
-					output.append(validShots).append(" tiro").append(validShots > 1 ? "s" : "").append(" válido").append(validShots > 1 ? "s" : "").append(": ");
+					output.append(validShots).append(" tiro").append(validShots > 1 ? "s" : "").append(": ");
 				}
 
 				// Atualizar lógica para contar múltiplos barcos afundados do mesmo tipo
@@ -185,8 +185,6 @@ public class Move implements IMove {
 
 		// Serializar o JSON utilizando Jackson
 		String jsonString;
-
-		// Serializar os tiros gerados em JSON usando a biblioteca Jackson
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
@@ -196,10 +194,11 @@ public class Move implements IMove {
 			throw new RuntimeException("Erro ao serializar o JSON dos resultados da jogada", e);
 		}
 
+		// Impressão da resposta formatada para interoperabilidade com o LLM
+		System.out.println("====== [JSON PARA O LLM] ======");
 		System.out.println(jsonString);
-		System.out.println();
+		System.out.println("===============================\n");
 
-		// Retornar o JSON
 		return jsonString;
 	}
 }
