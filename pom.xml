@@ -76,6 +76,8 @@
 		<allure.version>2.31.0</allure.version>
 
 		<jetbrains.annotations.version>26.1.0</jetbrains.annotations.version>
+
+		<pdfbox.version>3.0.3</pdfbox.version>
 	</properties>
 
 	<dependencies>
@@ -146,6 +148,13 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.14.0</version>
+		</dependency>
+
+		<!-- PDF: impressão das jogadas - Miguel 122620 - Issue #7 -->
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>${pdfbox.version}</version>
 		</dependency>
 
 	</dependencies>
