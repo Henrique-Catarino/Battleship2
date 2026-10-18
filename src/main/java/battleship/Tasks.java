@@ -24,6 +24,7 @@ public class Tasks {
 	private static final String SIMULA = "simula";
 	private static final String TEMPO = "tempo";
 	private static final String PDF = "pdf";
+	private static final String SCOREBOARD = "scoreboard";
 
 	public static void menu() {
 
@@ -68,6 +69,7 @@ public class Tasks {
 						if (game.getRemainingShips() == 0) {
 							gameTimer.endTurn();
 							gameTimer.showFinalSummary();
+							registerGame(game, ScoreboardEntry.VICTORY);
 							game.over();
 							PdfPrinter.generatePdf(game);
 							System.exit(0);
@@ -88,6 +90,7 @@ public class Tasks {
 							}
 						}
 						if (game.getRemainingShips() == 0) {
+							registerGame(game, ScoreboardEntry.VICTORY);
 							game.over();
 							PdfPrinter.generatePdf(game);
 							System.exit(0);
@@ -104,6 +107,9 @@ public class Tasks {
 				case TEMPO:
 					gameTimer.showStatus();
 					break;
+				case SCOREBOARD:
+					new Scoreboard().print(10);
+					break;
 				case PDF:
 					if (game != null)
 						PdfPrinter.generatePdf(game);
@@ -117,10 +123,30 @@ public class Tasks {
 			command = in.next();
 		}
 
+		// A game that was started but not finished is registered as abandoned
+		if (game != null && !game.getAlienMoves().isEmpty() && game.getRemainingShips() > 0)
+			registerGame(game, ScoreboardEntry.ABANDONED);
+
 		gameTimer.showFinalSummary();
 		if (game != null)
 			PdfPrinter.generatePdf(game);
 		System.out.println(GOODBYE_MESSAGE);
+	}
+
+	/**
+	 * Registers a game in the scoreboard. Misses are the valid shots that fell in the
+	 * water, i.e. all the shots fired minus hits, repeated shots and shots outside the board.
+	 *
+	 * @param game   the game to register
+	 * @param result one of the result constants in {@link ScoreboardEntry}
+	 */
+	private static void registerGame(IGame game, String result) {
+		int moves = game.getAlienMoves().size();
+		int hits = game.getHits();
+		int repeated = game.getRepeatedShots();
+		int outside = game.getInvalidShots();
+		int misses = moves * Game.NUMBER_SHOTS - hits - repeated - outside;
+		new Scoreboard().record(result, moves, hits, misses, repeated, outside);
 	}
 
 	public static void menuHelp() {
@@ -135,6 +161,7 @@ public class Tasks {
 		System.out.println("- " + SIMULA + ": Simula um jogo completo.");
 		System.out.println("- " + TIROS + ": Lista os tiros válidos realizados (* = tiro em navio, o = tiro na água)");
 		System.out.println("- " + PDF + ": Gera um PDF com o registo das jogadas.");
+		System.out.println("- " + SCOREBOARD + ": Mostra os melhores jogos e as estatísticas.");
 		System.out.println("- " + DESISTIR + ": Encerra o jogo.");
 		System.out.println("===============================================================");
 	}
