@@ -235,15 +235,17 @@ public abstract class Ship implements IShip
      *
      * @see battleship.IShip#getTopMostPos()
      */
-    @Override
-    public int getTopMostPos()
-    {
-	int top = getPositions().get(0).getRow();
-	for (int i = 1; i < getSize(); i++)
-	    if (getPositions().get(i).getRow() < top)
-		top = getPositions().get(i).getRow();
-	return top;
-    }
+	@Override
+	public int getTopMostPos()
+	{
+		int top = getPositions().get(0).getRow();
+		for (int i = 1; i < getSize(); i++) {
+			if (getPositions().get(i).getRow() < top) {
+				top = getPositions().get(i).getRow();
+			}
+		}
+		return top;
+	}
 
 	/**
 	 * Gets bottom most pos.
@@ -295,15 +297,17 @@ public abstract class Ship implements IShip
      *
      * @see battleship.IShip#getRightMostPos()
      */
-    @Override
-    public int getRightMostPos()
-    {
-	int right = getPositions().get(0).getColumn();
-	for (int i = 1; i < getSize(); i++)
-	    if (getPositions().get(i).getColumn() > right)
-		right = getPositions().get(i).getColumn();
-	return right;
-    }
+	@Override
+	public int getRightMostPos()
+	{
+		int right = getPositions().get(0).getColumn();
+		for (int i = 1; i < getSize(); i++) {
+			if (getPositions().get(i).getColumn() > right) {
+				right = getPositions().get(i).getColumn();
+			}
+		}
+		return right;
+	}
 
 	/**
 	 * Occupies boolean.
