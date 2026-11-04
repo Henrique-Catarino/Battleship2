@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 package battleship;
 
@@ -108,14 +108,18 @@ public abstract class Ship implements IShip
 	 * @param size		The number of positions occupied by the ship
 	 */
 	public Ship(String category, Compass bearing, IPosition pos, int size)
-	{
+    {
 		this.category = Objects.requireNonNull(category, "Ship's category must not be null");
 		this.bearing = Objects.requireNonNull(bearing, "Ship's bearing must not be null");
 		this.pos = Objects.requireNonNull(pos, "Ship's position must not be null");
+	
+		this.category = category;
+		this.bearing = bearing;
+		this.pos = pos;
 		this.size = size;
 
 		positions = new ArrayList<>();
-	}
+    }
 
 	/**
 	 * Gets category.
@@ -124,7 +128,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     *
+     * 
      * @see battleship.IShip#getCategory()
      */
     @Override
@@ -170,7 +174,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     *
+     * 
      * @see battleship.IShip#getPosition()
      */
     @Override
@@ -186,7 +190,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     *
+     * 
      * @see battleship.IShip#getBearing()
      */
     @Override
@@ -213,7 +217,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     *
+     * 
      * @see battleship.IShip#stillFloating()
      */
     @Override
@@ -232,20 +236,18 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     *
+     * 
      * @see battleship.IShip#getTopMostPos()
      */
-	@Override
-	public int getTopMostPos()
-	{
-		int top = getPositions().get(0).getRow();
-		for (int i = 1; i < getSize(); i++) {
-			if (getPositions().get(i).getRow() < top) {
-				top = getPositions().get(i).getRow();
-			}
-		}
-		return top;
-	}
+    @Override
+    public int getTopMostPos()
+    {
+	int top = getPositions().get(0).getRow();
+	for (int i = 1; i < getSize(); i++)
+	    if (getPositions().get(i).getRow() < top)
+		top = getPositions().get(i).getRow();
+	return top;
+    }
 
 	/**
 	 * Gets bottom most pos.
@@ -254,7 +256,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     *
+     * 
      * @see battleship.IShip#getBottomMostPos()
      */
     @Override
@@ -274,7 +276,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     *
+     * 
      * @see battleship.IShip#getLeftMostPos()
      */
     @Override
@@ -294,20 +296,18 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     *
+     * 
      * @see battleship.IShip#getRightMostPos()
      */
-	@Override
-	public int getRightMostPos()
-	{
-		int right = getPositions().get(0).getColumn();
-		for (int i = 1; i < getSize(); i++) {
-			if (getPositions().get(i).getColumn() > right) {
-				right = getPositions().get(i).getColumn();
-			}
-		}
-		return right;
-	}
+    @Override
+    public int getRightMostPos()
+    {
+	int right = getPositions().get(0).getColumn();
+	for (int i = 1; i < getSize(); i++)
+	    if (getPositions().get(i).getColumn() > right)
+		right = getPositions().get(i).getColumn();
+	return right;
+    }
 
 	/**
 	 * Occupies boolean.
@@ -317,7 +317,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     *
+     * 
      * @see battleship.IShip#occupies(battleship.IPosition)
      */
     @Override
@@ -339,7 +339,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     *
+     * 
      * @see battleship.IShip#tooCloseTo(battleship.IShip)
      */
     @Override
@@ -363,7 +363,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     *
+     * 
      * @see battleship.IShip#tooCloseTo(battleship.IPosition)
      */
     @Override
@@ -379,8 +379,10 @@ public abstract class Ship implements IShip
 
 	public boolean isInsideBoard()
 	{
-		return (getLeftMostPos() >= 0 && getRightMostPos() <= Game.BOARD_SIZE - 1
-				&& getTopMostPos() >= 0 && getBottomMostPos() <= Game.BOARD_SIZE - 1);
+		assert this != null;
+
+		return (getLeftMostPos() >= 0 && getRightMostPos() <= Game.BOARD_SIZE - 1 && getTopMostPos() >= 0
+				&& getBottomMostPos() <= Game.BOARD_SIZE - 1);
 	}
 	/**
 	 * Shoot.
@@ -389,7 +391,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     *
+     * 
      * @see battleship.IShip#shoot(battleship.IPosition)
      */
     @Override
