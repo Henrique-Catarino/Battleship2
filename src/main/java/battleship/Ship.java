@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package battleship;
 
@@ -108,18 +108,14 @@ public abstract class Ship implements IShip
 	 * @param size		The number of positions occupied by the ship
 	 */
 	public Ship(String category, Compass bearing, IPosition pos, int size)
-    {
+	{
 		this.category = Objects.requireNonNull(category, "Ship's category must not be null");
 		this.bearing = Objects.requireNonNull(bearing, "Ship's bearing must not be null");
 		this.pos = Objects.requireNonNull(pos, "Ship's position must not be null");
-	
-		this.category = category;
-		this.bearing = bearing;
-		this.pos = pos;
 		this.size = size;
 
 		positions = new ArrayList<>();
-    }
+	}
 
 	/**
 	 * Gets category.
@@ -128,7 +124,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     * 
+     *
      * @see battleship.IShip#getCategory()
      */
     @Override
@@ -174,7 +170,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     * 
+     *
      * @see battleship.IShip#getPosition()
      */
     @Override
@@ -190,7 +186,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     * 
+     *
      * @see battleship.IShip#getBearing()
      */
     @Override
@@ -217,7 +213,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     * 
+     *
      * @see battleship.IShip#stillFloating()
      */
     @Override
@@ -236,7 +232,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     * 
+     *
      * @see battleship.IShip#getTopMostPos()
      */
     @Override
@@ -256,7 +252,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     * 
+     *
      * @see battleship.IShip#getBottomMostPos()
      */
     @Override
@@ -276,7 +272,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     * 
+     *
      * @see battleship.IShip#getLeftMostPos()
      */
     @Override
@@ -296,7 +292,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     * 
+     *
      * @see battleship.IShip#getRightMostPos()
      */
     @Override
@@ -317,7 +313,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     * 
+     *
      * @see battleship.IShip#occupies(battleship.IPosition)
      */
     @Override
@@ -339,7 +335,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     * 
+     *
      * @see battleship.IShip#tooCloseTo(battleship.IShip)
      */
     @Override
@@ -363,7 +359,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     * 
+     *
      * @see battleship.IShip#tooCloseTo(battleship.IPosition)
      */
     @Override
@@ -389,7 +385,7 @@ public abstract class Ship implements IShip
 	 */
 	/*
      * (non-Javadoc)
-     * 
+     *
      * @see battleship.IShip#shoot(battleship.IPosition)
      */
     @Override
