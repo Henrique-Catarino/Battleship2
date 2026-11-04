@@ -379,10 +379,8 @@ public abstract class Ship implements IShip
 
 	public boolean isInsideBoard()
 	{
-		assert this != null;
-
-		return (getLeftMostPos() >= 0 && getRightMostPos() <= Game.BOARD_SIZE - 1 && getTopMostPos() >= 0
-				&& getBottomMostPos() <= Game.BOARD_SIZE - 1);
+		return (getLeftMostPos() >= 0 && getRightMostPos() <= Game.BOARD_SIZE - 1
+				&& getTopMostPos() >= 0 && getBottomMostPos() <= Game.BOARD_SIZE - 1);
 	}
 	/**
 	 * Shoot.
