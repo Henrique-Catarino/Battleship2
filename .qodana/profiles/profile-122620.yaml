@@ -1,7 +1,6 @@
-# 122620 - Miguel
-profile:
-  base:
-    name: empty
+# 122620 - Miguel Ferreira
+name: profile-122620
+baseProfile: empty
 inspections:
   - inspection: ParametersPerMethod
     enabled: true
