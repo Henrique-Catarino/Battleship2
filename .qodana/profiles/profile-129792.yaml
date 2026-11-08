@@ -1,9 +1,8 @@
 name: "Rafael-129792-LongMethod"
+baseProfile: "empty"
 inspections:
-  - group: "Java/Method metrics"
-    enabled: true
   - inspection: "MethodWithTooManyLines"
     enabled: true
     severity: "CRITICAL"
     options:
-      m_limit: 150
+      m_limit: 40

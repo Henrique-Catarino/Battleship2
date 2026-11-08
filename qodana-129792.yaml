@@ -6,3 +6,6 @@ failureConditions:
   severityThresholds:
     critical: 0
     high: 0
+    moderate: 9999
+    low: 9999
+    info: 9999
