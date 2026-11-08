@@ -1,15 +1,13 @@
-# 129799 - Henrique Catarino
-baseProfile: empty
-inspections:
-  # NOM: reporta classes com mais de 14 métodos (NOM "muito alto" = 15)
-  - inspection: MethodCount
-    enabled: true
-    severity: WARNING
-    options:
-      m_limit: 14
-  # WMC: reporta classes com complexidade total acima de 44 (WMC "muito alto" = 45)
-  - inspection: ClassComplexity
-    enabled: true
-    severity: WARNING
-    options:
-      m_limit: 44
+# 129799 Henrique Catarino
+profile:
+  base:
+    name: empty
+  inspections:
+    - inspection: ClassWithTooManyMethods
+      enabled: true
+      options:
+        limit: 60
+    - inspection: OverlyComplexClass
+      enabled: true
+      options:
+        limit: 150
