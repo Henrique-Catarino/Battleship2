@@ -26,5 +26,6 @@ jobs:
       - name: "Qodana Scan (Quality Gate)"
         uses: JetBrains/qodana-action@v2024.2
         with:
-          args: --config,qodana-129792.yaml,--baseline-include-all
+          args: --config,qodana-129792.yaml
+          pr-mode: false
           use-annotations: true
