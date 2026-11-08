@@ -17,8 +17,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Download Checkstyle CLI
+        run: |
+          wget https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.5/checkstyle-10.12.5-all.jar -O checkstyle.jar
+
       - name: Run Checkstyle
-        uses: nikitasavchenko/checkstyle-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          checkstyle_config: checkstyle-129799.xml
+        run: |
+          java -jar checkstyle.jar -c checkstyle-129799.xml src/
