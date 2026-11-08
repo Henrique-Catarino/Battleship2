@@ -1,5 +1,5 @@
 version: "1.0"
-linter: jetbrains/qodana-jvm-community:latest
+linter: jetbrains/qodana-jvm-community:2024.2
 profile:
   path: .qodana/profiles/profile-129792.yaml
 failureConditions:
