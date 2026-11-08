@@ -5,4 +5,5 @@ projectJDK: 21
 profile:
   path: .qodana/profiles/profile-129799.yaml
 failureConditions:
-  failThreshold: 12
+  severityThresholds:
+    any: 12  # Permite tolerar até 11 avisos atuais sem que o build falhe (podes ajustar conforme pretendido)
