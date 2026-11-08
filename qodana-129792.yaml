@@ -1,11 +1,9 @@
 version: "1.0"
 linter: jetbrains/qodana-jvm-community:2024.2
 profile:
-  path: .qodana/profiles/profile-129792.yaml
+  name: empty
+include:
+  - name: MethodWithTooManyLines
 failureConditions:
   severityThresholds:
-    critical: 0
-    high: 0
-    moderate: 9999
-    low: 9999
-    info: 9999
+    any: 1

@@ -3,6 +3,6 @@ baseProfile: "empty"
 inspections:
   - inspection: "MethodWithTooManyLines"
     enabled: true
-    severity: "CRITICAL"
+    severity: "ERROR"
     options:
       m_limit: 40
