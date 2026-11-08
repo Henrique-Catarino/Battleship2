@@ -453,15 +453,16 @@ public class Game implements IGame
 			System.out.println("+--------------------------------------------------------------+");
 	}
 	// Métodos temporários para provocar o Code Smell (God Class / Too Many Methods)
-	public void smellTest1() {}
-	public void smellTest2() {}
-	public void smellTest3() {}
-	public void smellTest4() {}
-	public void smellTest5() {}
-	public void smellTest6() {}
-	public void smellTest7() {}
-	public void smellTest8() {}
-	public void smellTest9() {}
+// BLOCO PARA FORÇAR FALHA NO QODANA (70 MÉTODOS)
+	public void smellTest01() {}
+	public void smellTest02() {}
+	public void smellTest03() {}
+	public void smellTest04() {}
+	public void smellTest05() {}
+	public void smellTest06() {}
+	public void smellTest07() {}
+	public void smellTest08() {}
+	public void smellTest09() {}
 	public void smellTest10() {}
 	public void smellTest11() {}
 	public void smellTest12() {}
@@ -478,4 +479,49 @@ public class Game implements IGame
 	public void smellTest23() {}
 	public void smellTest24() {}
 	public void smellTest25() {}
+	public void smellTest26() {}
+	public void smellTest27() {}
+	public void smellTest28() {}
+	public void smellTest29() {}
+	public void smellTest30() {}
+	public void smellTest31() {}
+	public void smellTest32() {}
+	public void smellTest33() {}
+	public void smellTest34() {}
+	public void smellTest35() {}
+	public void smellTest36() {}
+	public void smellTest37() {}
+	public void smellTest38() {}
+	public void smellTest39() {}
+	public void smellTest40() {}
+	public void smellTest41() {}
+	public void smellTest42() {}
+	public void smellTest43() {}
+	public void smellTest44() {}
+	public void smellTest45() {}
+	public void smellTest46() {}
+	public void smellTest47() {}
+	public void smellTest48() {}
+	public void smellTest49() {}
+	public void smellTest50() {}
+	public void smellTest51() {}
+	public void smellTest52() {}
+	public void smellTest53() {}
+	public void smellTest54() {}
+	public void smellTest55() {}
+	public void smellTest56() {}
+	public void smellTest57() {}
+	public void smellTest58() {}
+	public void smellTest59() {}
+	public void smellTest60() {}
+	public void smellTest61() {}
+	public void smellTest62() {}
+	public void smellTest63() {}
+	public void smellTest64() {}
+	public void smellTest65() {}
+	public void smellTest66() {}
+	public void smellTest67() {}
+	public void smellTest68() {}
+	public void smellTest69() {}
+	public void smellTest70() {}
 }
