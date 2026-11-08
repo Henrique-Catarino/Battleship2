@@ -1,28 +1,24 @@
-name: "Checkstyle - Naming Convention MethodName (129799)"
-
+# 129799 - Henrique Catarino
+name: Qodana smell gate 129799
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-      - 'feature/**'
   pull_request:
-    branches:
-      - main
-
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
 jobs:
-  checkstyle:
+  qodana:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-      checks: write
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Run Checkstyle (Quality Gate)
-        uses: dbelyaev/action-checkstyle@v4
+      - uses: actions/checkout@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          checkstyle_config: checkstyle-129799.xml
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - uses: JetBrains/qodana-action@v2026.2
+        with:
+          args: --config qodana-129799.yaml --profile-path .qodana/profiles/profile-129799.yaml
+          use-annotations: true
+          post-pr-comment: true
