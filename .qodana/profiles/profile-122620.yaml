@@ -1,0 +1,9 @@
+# 122620 - Miguel
+profile:
+  base:
+    name: empty
+inspections:
+  - inspection: ParametersPerMethod
+    enabled: true
+    options:
+      m_limit: 3
