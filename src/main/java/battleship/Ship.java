@@ -420,7 +420,7 @@ public abstract class Ship implements IShip
 		for (IPosition position : getPositions())
 			position.shoot();
 	}
-	public void Calcular_Pontos_129799() {}
+	public void calcularPontos129799() {}
 
 	/**
 	 * To string string.
