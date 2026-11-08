@@ -1,3 +1,4 @@
+# 129799 - Henrique Catarino
 version: "1.0"
 linter: jetbrains/qodana-jvm-community:2026.2
 profile:
