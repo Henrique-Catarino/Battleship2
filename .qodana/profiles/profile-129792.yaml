@@ -1,8 +1,13 @@
 name: "Rafael-129792-LongMethod"
 baseProfile: "empty"
 inspections:
-  - inspection: "MethodWithTooManyLines"
+  - inspection: "OverlyLongMethod"
     enabled: true
-    severity: "ERROR"
+    severity: "WARNING"
     options:
-      m_limit: 40
+      m_limit: 30
+  - inspection: "NonCommentSourceStatements"
+    enabled: true
+    severity: "WARNING"
+    options:
+      m_limit: 30
