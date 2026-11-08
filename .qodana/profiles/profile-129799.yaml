@@ -1,0 +1,12 @@
+profile:
+  base:
+    name: empty
+  inspections:
+    - inspection: ClassWithTooManyMethods
+      enabled: true
+      options:
+        limit: 60
+    - inspection: OverlyComplexClass
+      enabled: true
+      options:
+        limit: 150

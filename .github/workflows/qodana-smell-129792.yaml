@@ -1,0 +1,31 @@
+name: "Qodana - Code Smell Long Method (129792)"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - 'feature/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  qodana:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "Qodana Scan (Quality Gate)"
+        uses: JetBrains/qodana-action@v2024.2
+        with:
+          args: --config,qodana-129792.yaml
+          pr-mode: false
+          use-annotations: true
