@@ -452,6 +452,30 @@ public class Game implements IGame
 			System.out.println("| Maldito sejas, Java Sparrow, eu voltarei, glub glub glub ... |");
 			System.out.println("+--------------------------------------------------------------+");
 	}
-	//Forcar o qodana a dar certo
-
+	// Métodos temporários para provocar o Code Smell (God Class / Too Many Methods)
+	public void smellTest1() {}
+	public void smellTest2() {}
+	public void smellTest3() {}
+	public void smellTest4() {}
+	public void smellTest5() {}
+	public void smellTest6() {}
+	public void smellTest7() {}
+	public void smellTest8() {}
+	public void smellTest9() {}
+	public void smellTest10() {}
+	public void smellTest11() {}
+	public void smellTest12() {}
+	public void smellTest13() {}
+	public void smellTest14() {}
+	public void smellTest15() {}
+	public void smellTest16() {}
+	public void smellTest17() {}
+	public void smellTest18() {}
+	public void smellTest19() {}
+	public void smellTest20() {}
+	public void smellTest21() {}
+	public void smellTest22() {}
+	public void smellTest23() {}
+	public void smellTest24() {}
+	public void smellTest25() {}
 }
