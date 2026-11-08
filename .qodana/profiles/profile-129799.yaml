@@ -1,6 +1,5 @@
 # 129799 - Henrique Catarino
-base:
-  name: empty
+baseProfile: empty
 inspections:
   # NOM: reporta classes com mais de 14 métodos (NOM "muito alto" = 15)
   - inspection: MethodCount
