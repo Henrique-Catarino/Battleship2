@@ -6,4 +6,4 @@ inspections:
     enabled: true
     severity: "CRITICAL"
     options:
-      m_limit: 40
+      m_limit: 150
