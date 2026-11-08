@@ -1,26 +1,28 @@
-name: Checkstyle - Naming Conventions (129799)
+name: "Checkstyle - Naming Convention MethodName (129799)"
 
 on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - 'feature/**'
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   checkstyle:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
     steps:
-      - name: Checkout repository
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - name: Run Checkstyle (Quality Gate)
+        uses: dbelyaev/action-checkstyle@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
-
-      - name: Download Checkstyle CLI
-        run: |
-          wget https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.5/checkstyle-10.12.5-all.jar -O checkstyle.jar
-
-      - name: Run Checkstyle
-        run: |
-          java -jar checkstyle.jar -c checkstyle-129799.xml src/
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          checkstyle_config: checkstyle-129799.xml
