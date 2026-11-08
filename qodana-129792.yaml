@@ -1,0 +1,8 @@
+version: "1.0"
+linter: jetbrains/qodana-jvm-community:latest
+profile:
+  path: .qodana/profiles/profile-129792.yaml
+failureConditions:
+  severityThresholds:
+    critical: 0
+    high: 0
