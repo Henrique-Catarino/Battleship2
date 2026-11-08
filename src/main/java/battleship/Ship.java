@@ -421,7 +421,7 @@ public abstract class Ship implements IShip
 			position.shoot();
 	}
 	public void Calcular_Pontos_129799() {}
-
+	//
 	/**
 	 * To string string.
 	 *
