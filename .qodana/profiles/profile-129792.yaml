@@ -1,4 +1,5 @@
-name: "Rafael-129792-LongMethod"
+# 129792 - Rafael Assunção
+name: "LongMethod"
 baseProfile: "empty"
 inspections:
   - inspection: "OverlyLongMethod"
