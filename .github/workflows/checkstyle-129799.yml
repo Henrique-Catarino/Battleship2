@@ -18,7 +18,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Run Checkstyle
-        uses: dbelmont/action-checkstyle@v1.2.1
+        uses: nikitasavchenko/checkstyle-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           checkstyle_config: checkstyle-129799.xml
