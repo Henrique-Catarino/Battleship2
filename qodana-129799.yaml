@@ -6,4 +6,4 @@ profile:
   path: .qodana/profiles/profile-129799.yaml
 failureConditions:
   severityThresholds:
-    any: 12  # Permite tolerar até 11 avisos atuais sem que o build falhe (podes ajustar conforme pretendido)
+    any: 0
