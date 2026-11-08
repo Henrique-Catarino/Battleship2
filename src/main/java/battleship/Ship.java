@@ -431,5 +431,25 @@ public abstract class Ship implements IShip
     {
 	return "[" + category + " " + bearing + " " + pos + "]";
     }
+	// ---------------------------------------------------------
+	// CHEIRO INTRODUZIDO: GOD CLASS
+	// Adição de dezenas de variáveis para aumentar o NOA (Number of Attributes)
+	private int dummyVar1, dummyVar2, dummyVar3, dummyVar4, dummyVar5;
+	private int dummyVar6, dummyVar7, dummyVar8, dummyVar9, dummyVar10;
+	private int dummyVar11, dummyVar12, dummyVar13, dummyVar14, dummyVar15;
+	private int dummyVar16, dummyVar17, dummyVar18, dummyVar19, dummyVar20;
+	private String dummyString1, dummyString2, dummyString3, dummyString4, dummyString5;
 
+	// Adição de vários métodos inúteis para aumentar o NOM (Number of Methods)
+	public void dummyMethod1() { System.out.println(dummyVar1); }
+	public void dummyMethod2() { System.out.println(dummyVar2); }
+	public void dummyMethod3() { System.out.println(dummyVar3); }
+	public void dummyMethod4() { System.out.println(dummyVar4); }
+	public void dummyMethod5() { System.out.println(dummyVar5); }
+	public void dummyMethod6() { System.out.println(dummyVar6); }
+	public void dummyMethod7() { System.out.println(dummyVar7); }
+	public void dummyMethod8() { System.out.println(dummyVar8); }
+	public void dummyMethod9() { System.out.println(dummyVar9); }
+	public void dummyMethod10() { System.out.println(dummyVar10); }
+	// (Se o limite da sua métrica for mais alto, copie e cole mais métodos até ter uns 30 ou 40)
 }
