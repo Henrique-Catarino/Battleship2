@@ -1,0 +1,8 @@
+# 122620 - Miguel Ferreira
+name: profile-122620
+baseProfile: empty
+inspections:
+  - inspection: ParametersPerMethod
+    enabled: true
+    options:
+      m_limit: 6
