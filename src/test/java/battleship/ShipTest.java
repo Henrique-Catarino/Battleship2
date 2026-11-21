@@ -3,13 +3,13 @@ package battleship;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Test class for Ship.
- * Author: ${user.name}
- * Date: ${current_date}
- * Time: ${current_time}
+ * Author: Henrique Catarino (129799)
+ * Date: 2026-11-21
  * Cyclomatic Complexity for each method:
  * - Constructor: 1
  * - getCategory: 1
@@ -40,13 +40,28 @@ public class ShipTest {
     @AfterEach
     void tearDown() {
         ship = null;
+        shipBorder = null;
     }
+
+    // ------------------------------------------------------------------
+    // Auxiliar: navio com posições em ordem controlada
+    // ------------------------------------------------------------------
+    private Ship customShip(Position... ps) {
+        Ship s = new Ship("teste", Compass.NORTH, ps[0], ps.length) { };
+        s.positions.addAll(Arrays.asList(ps));
+        return s;
+    }
+
+    // ------------------------------------------------------------------
+    // Testes originais
+    // ------------------------------------------------------------------
 
     /**
      * Test for the constructor.
      * Cyclomatic Complexity: 1
      */
     @Test
+    @DisplayName("Construtor cria uma barca com categoria, bearing, tamanho e posições")
     void testConstructor() {
         assertNotNull(ship, "Error: Ship instance should not be null.");
         assertEquals("Barca", ship.getCategory(), "Error: Ship category is incorrect.");
@@ -60,6 +75,7 @@ public class ShipTest {
      * Cyclomatic Complexity: 1
      */
     @Test
+    @DisplayName("getCategory devolve \"Barca\"")
     void testGetCategory() {
         assertEquals("Barca", ship.getCategory(), "Error: Ship category should be 'Barca'.");
     }
@@ -69,6 +85,7 @@ public class ShipTest {
      * Cyclomatic Complexity: 1
      */
     @Test
+    @DisplayName("getSize devolve 1 para uma barca")
     void testGetSize() {
         assertEquals(1, ship.getSize(), "Error: Ship size should be 1.");
     }
@@ -78,6 +95,7 @@ public class ShipTest {
      * Cyclomatic Complexity: 1
      */
     @Test
+    @DisplayName("getBearing devolve NORTH")
     void testGetBearing() {
         assertEquals(Compass.NORTH, ship.getBearing(), "Error: Ship bearing should be NORTH.");
     }
@@ -87,6 +105,7 @@ public class ShipTest {
      * Cyclomatic Complexity: 1
      */
     @Test
+    @DisplayName("getPositions devolve a lista com a posição (5,5)")
     void testGetPositions() {
         List<IPosition> positions = ship.getPositions();
         assertNotNull(positions, "Error: Ship positions should not be null.");
@@ -100,6 +119,7 @@ public class ShipTest {
      * Cyclomatic Complexity: 2
      */
     @Test
+    @DisplayName("stillFloating é true com todas as posições intactas")
     void testStillFloating1() {
         assertTrue(ship.stillFloating(), "Error: Ship should still be floating.");
     }
@@ -108,6 +128,7 @@ public class ShipTest {
      * Test for the stillFloating method (all positions hit).
      */
     @Test
+    @DisplayName("stillFloating é false com todas as posições atingidas")
     void testStillFloating2() {
         ship.getPositions().get(0).shoot();
         assertFalse(ship.stillFloating(), "Error: Ship should no longer be floating after being hit.");
@@ -118,6 +139,7 @@ public class ShipTest {
      * Cyclomatic Complexity: 2
      */
     @Test
+    @DisplayName("shoot atinge a posição ocupada pelo navio")
     void testShoot1() {
         Position target = new Position(5, 5);
         ship.shoot(target);
@@ -128,6 +150,7 @@ public class ShipTest {
      * Test for the shoot method (invalid position).
      */
     @Test
+    @DisplayName("shoot noutra posição não atinge o navio")
     void testShoot2() {
         Position target = new Position(0, 0);
         ship.shoot(target); // No exception expected
@@ -139,6 +162,7 @@ public class ShipTest {
      * Cyclomatic Complexity: 2
      */
     @Test
+    @DisplayName("occupies é true para a posição do navio")
     void testOccupies1() {
         Position pos = new Position(5, 5);
         assertTrue(ship.occupies(pos), "Error: Ship should occupy position (5, 5).");
@@ -148,6 +172,7 @@ public class ShipTest {
      * Test for the occupies method (position not occupied).
      */
     @Test
+    @DisplayName("occupies é false para uma posição livre")
     void testOccupies2() {
         Position pos = new Position(1, 1);
         assertFalse(ship.occupies(pos), "Error: Ship should not occupy position (1, 1).");
@@ -158,6 +183,7 @@ public class ShipTest {
      * Cyclomatic Complexity: 2
      */
     @Test
+    @DisplayName("tooCloseTo(IShip) é true para navio adjacente")
     void testTooCloseToShip1() {
         Ship nearbyShip = new Barge(Compass.NORTH, new Position(5, 6));
         assertTrue(ship.tooCloseTo(nearbyShip), "Error: Ships should be too close.");
@@ -167,6 +193,7 @@ public class ShipTest {
      * Test for the tooCloseTo method with another IShip (ships not close).
      */
     @Test
+    @DisplayName("tooCloseTo(IShip) é false para navio distante")
     void testTooCloseToShip2() {
         Ship farShip = new Barge(Compass.NORTH, new Position(10, 10));
         assertFalse(ship.tooCloseTo(farShip), "Error: Ships should not be too close.");
@@ -177,6 +204,7 @@ public class ShipTest {
      * Cyclomatic Complexity: 2
      */
     @Test
+    @DisplayName("tooCloseTo(IPosition) é true para posição adjacente")
     void testTooCloseToPosition1() {
         Position pos = new Position(5, 6); // Adjacent position
         assertTrue(ship.tooCloseTo(pos), "Error: Ship should be too close to the given position.");
@@ -186,6 +214,7 @@ public class ShipTest {
      * Test for the tooCloseTo method with an IPosition (positions not adjacent).
      */
     @Test
+    @DisplayName("tooCloseTo(IPosition) é false para posição afastada")
     void testTooCloseToPosition2() {
         Position pos = new Position(7, 7); // Non-adjacent position
         assertFalse(ship.tooCloseTo(pos), "Error: Ship should not be too close to the given position.");
@@ -196,6 +225,7 @@ public class ShipTest {
      * Cyclomatic Complexity: 2
      */
     @Test
+    @DisplayName("getTopMostPos devolve 5")
     void testGetTopMostPos() {
         assertEquals(5, ship.getTopMostPos(), "Error: The topmost position should be 5.");
     }
@@ -205,6 +235,7 @@ public class ShipTest {
      * Cyclomatic Complexity: 2
      */
     @Test
+    @DisplayName("getBottomMostPos devolve 5")
     void testGetBottomMostPos() {
         assertEquals(5, ship.getBottomMostPos(), "Error: The bottommost position should be 5.");
     }
@@ -214,6 +245,7 @@ public class ShipTest {
      * Cyclomatic Complexity: 2
      */
     @Test
+    @DisplayName("getLeftMostPos devolve 5")
     void testGetLeftMostPos() {
         assertEquals(5, ship.getLeftMostPos(), "Error: The leftmost position should be 5.");
     }
@@ -223,19 +255,218 @@ public class ShipTest {
      * Cyclomatic Complexity: 2
      */
     @Test
+    @DisplayName("getRightMostPos devolve 5")
     void testGetRightMostPos() {
         assertEquals(5, ship.getRightMostPos(), "Error: The rightmost position should be 5.");
     }
 
     /**
-     * Test for the getRightMostPos method.
+     * Test for the getAdjacentPositions method.
      * Cyclomatic Complexity: 2
      */
     @Test
+    @DisplayName("getAdjacentPositions devolve 8 no meio e 3 no canto do tabuleiro")
     void testGetAdjacentPositions() {
-        assertEquals(8, ship.getAdjacentPositions().size(), "Error: The number of adjacent positions of a barge in the middle of the tray should be 8.");
-        assertEquals(3, shipBorder.getAdjacentPositions().size(), "Error: The number of adjacent positions of a barge in the middle of the tray should be 8.");
+        assertEquals(8, ship.getAdjacentPositions().size(),
+                "Error: The number of adjacent positions of a barge in the middle of the board should be 8.");
+        assertEquals(3, shipBorder.getAdjacentPositions().size(),
+                "Error: The number of adjacent positions of a barge in the corner of the board should be 3.");
     }
 
+    // ------------------------------------------------------------------
+    // Testes adicionados para maximizar a cobertura
+    // ------------------------------------------------------------------
 
+    // ---------- Construtor ----------
+    @Test
+    @DisplayName("Construtor lança NPE se a categoria for null")
+    void testConstructorNullCategory() {
+        assertThrows(NullPointerException.class,
+                () -> new Ship(null, Compass.NORTH, new Position(1, 1), 1) { });
+    }
+
+    @Test
+    @DisplayName("Construtor lança NPE se o bearing for null")
+    void testConstructorNullBearing() {
+        assertThrows(NullPointerException.class,
+                () -> new Ship("x", null, new Position(1, 1), 1) { });
+    }
+
+    @Test
+    @DisplayName("Construtor lança NPE se a posição for null")
+    void testConstructorNullPosition() {
+        assertThrows(NullPointerException.class,
+                () -> new Ship("x", Compass.NORTH, null, 1) { });
+    }
+
+    // ---------- buildShip ----------
+    @Test
+    @DisplayName("buildShip cria cada tipo de navio")
+    void testBuildShipAllKinds() {
+        Position p = new Position(3, 3);
+        assertInstanceOf(Barge.class, Ship.buildShip("barca", Compass.NORTH, p));
+        assertInstanceOf(Caravel.class, Ship.buildShip("caravela", Compass.NORTH, p));
+        assertInstanceOf(Carrack.class, Ship.buildShip("nau", Compass.NORTH, p));
+        assertInstanceOf(Frigate.class, Ship.buildShip("fragata", Compass.NORTH, p));
+        assertInstanceOf(Galleon.class, Ship.buildShip("galeao", Compass.NORTH, p));
+    }
+
+    @Test
+    @DisplayName("buildShip devolve null para tipo desconhecido")
+    void testBuildShipUnknownKind() {
+        assertNull(Ship.buildShip("submarino", Compass.NORTH, new Position(3, 3)));
+    }
+
+    @Test
+    @DisplayName("buildShip rejeita argumentos null (assertions ativas)")
+    void testBuildShipNullArgs() {
+        Position p = new Position(3, 3);
+        assertThrows(AssertionError.class, () -> Ship.buildShip(null, Compass.NORTH, p));
+        assertThrows(AssertionError.class, () -> Ship.buildShip("barca", null, p));
+        assertThrows(AssertionError.class, () -> Ship.buildShip("barca", Compass.NORTH, null));
+    }
+
+    // ---------- getPosition / toString ----------
+    @Test
+    @DisplayName("getPosition devolve a posição inicial")
+    void testGetPosition() {
+        assertEquals(5, ship.getPosition().getRow());
+        assertEquals(5, ship.getPosition().getColumn());
+    }
+
+    @Test
+    @DisplayName("toString devolve [categoria bearing posição]")
+    void testToString() {
+        String expected = "[" + ship.getCategory() + " " + ship.getBearing() + " " + ship.getPosition() + "]";
+        assertEquals(expected, ship.toString());
+    }
+
+    // ---------- sink ----------
+    @Test
+    @DisplayName("sink afunda o navio todo")
+    void testSink() {
+        Ship s = customShip(new Position(1, 1), new Position(1, 2), new Position(1, 3));
+        assertTrue(s.stillFloating());
+        s.sink();
+        assertFalse(s.stillFloating());
+        assertTrue(s.getPositions().stream().allMatch(IPosition::isHit));
+    }
+
+    // ---------- isInsideBoard ----------
+    @Test
+    @DisplayName("isInsideBoard: navio dentro do tabuleiro")
+    void testIsInsideBoardTrue() {
+        assertTrue(ship.isInsideBoard());
+        assertTrue(shipBorder.isInsideBoard());
+    }
+
+    @Test
+    @DisplayName("isInsideBoard: falha pelo lado esquerdo")
+    void testIsInsideBoardLeft() {
+        assertFalse(customShip(new Position(5, -1)).isInsideBoard());
+    }
+
+    @Test
+    @DisplayName("isInsideBoard: falha pelo lado direito")
+    void testIsInsideBoardRight() {
+        assertFalse(customShip(new Position(5, Game.BOARD_SIZE)).isInsideBoard());
+    }
+
+    @Test
+    @DisplayName("isInsideBoard: falha por cima")
+    void testIsInsideBoardTop() {
+        assertFalse(customShip(new Position(-1, 5)).isInsideBoard());
+    }
+
+    @Test
+    @DisplayName("isInsideBoard: falha por baixo")
+    void testIsInsideBoardBottom() {
+        assertFalse(customShip(new Position(Game.BOARD_SIZE, 5)).isInsideBoard());
+    }
+
+    // ---------- Navios com várias posições ----------
+    @Test
+    @DisplayName("stillFloating: navio parcialmente atingido continua a flutuar")
+    void testStillFloatingPartiallyHit() {
+        Ship s = customShip(new Position(2, 2), new Position(2, 3));
+        s.getPositions().get(0).shoot();
+        assertTrue(s.stillFloating());
+        s.getPositions().get(1).shoot();
+        assertFalse(s.stillFloating());
+    }
+
+    @Test
+    @DisplayName("getTopMostPos com posições fora de ordem")
+    void testTopMostMulti() {
+        assertEquals(4, customShip(new Position(5, 5), new Position(4, 6), new Position(6, 4)).getTopMostPos());
+    }
+
+    @Test
+    @DisplayName("getBottomMostPos com posições fora de ordem")
+    void testBottomMostMulti() {
+        assertEquals(6, customShip(new Position(5, 5), new Position(4, 6), new Position(6, 4)).getBottomMostPos());
+    }
+
+    @Test
+    @DisplayName("getLeftMostPos com posições fora de ordem")
+    void testLeftMostMulti() {
+        assertEquals(4, customShip(new Position(5, 5), new Position(4, 6), new Position(6, 4)).getLeftMostPos());
+    }
+
+    @Test
+    @DisplayName("getRightMostPos com posições fora de ordem")
+    void testRightMostMulti() {
+        assertEquals(6, customShip(new Position(5, 5), new Position(4, 6), new Position(6, 4)).getRightMostPos());
+    }
+
+    @Test
+    @DisplayName("occupies encontra posição que não é a primeira")
+    void testOccupiesSecondPosition() {
+        Ship s = customShip(new Position(2, 2), new Position(2, 3));
+        assertTrue(s.occupies(new Position(2, 3)));
+        assertFalse(s.occupies(new Position(9, 9)));
+    }
+
+    @Test
+    @DisplayName("shoot só atinge a posição visada num navio grande")
+    void testShootMulti() {
+        Ship s = customShip(new Position(2, 2), new Position(2, 3));
+        s.shoot(new Position(2, 3));
+        assertFalse(s.getPositions().get(0).isHit());
+        assertTrue(s.getPositions().get(1).isHit());
+    }
+
+    @Test
+    @DisplayName("tooCloseTo(IShip) com navio de várias posições")
+    void testTooCloseToShipMulti() {
+        Ship big = customShip(new Position(2, 2), new Position(2, 3));
+        assertTrue(big.tooCloseTo(new Barge(Compass.NORTH, new Position(3, 4))));
+        assertFalse(big.tooCloseTo(new Barge(Compass.NORTH, new Position(8, 8))));
+    }
+
+    @Test
+    @DisplayName("getAdjacentPositions não repete posições nem inclui as do navio")
+    void testAdjacentPositionsMulti() {
+        Ship s = customShip(new Position(5, 5), new Position(5, 6));
+        List<IPosition> adj = s.getAdjacentPositions();
+        assertEquals(10, adj.size());
+        assertFalse(adj.contains(new Position(5, 5)));
+        assertFalse(adj.contains(new Position(5, 6)));
+    }
+
+    // ---------- Assertions internas (requerem -ea, ativo por defeito no Surefire/IntelliJ) ----------
+    @Test
+    @DisplayName("shoot rejeita posição fora do tabuleiro (assertions ativas)")
+    void testShootOutside() {
+        assertThrows(AssertionError.class, () -> ship.shoot(new Position(-1, -1)));
+    }
+
+    @Test
+    @DisplayName("occupies/tooCloseTo/shoot rejeitam null (assertions ativas)")
+    void testNullArguments() {
+        assertThrows(AssertionError.class, () -> ship.occupies(null));
+        assertThrows(AssertionError.class, () -> ship.tooCloseTo((IShip) null));
+        assertThrows(AssertionError.class, () -> ship.tooCloseTo((IPosition) null));
+        assertThrows(AssertionError.class, () -> ship.shoot(null));
+    }
 }
