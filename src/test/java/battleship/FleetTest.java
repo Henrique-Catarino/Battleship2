@@ -277,7 +277,7 @@ public class FleetTest {
 	@Test
 	@DisplayName("printShips rejeita lista null (assertions ativas)")
 	void testPrintShipsNull() {
-		assertThrows(AssertionError.class, () -> fleet.printShips(null));
+		assertThrows(AssertionError.class, () -> Fleet.printShips(null));
 	}
 
 	@Test
@@ -312,7 +312,7 @@ public class FleetTest {
 		fleet.addShip(ship1);
 		fleet.addShip(ship2);
 
-		fleet.printShips(fleet.getShips());
+		Fleet.printShips(fleet.getShips());
 
 		assertTrue(output().contains(ship1.toString()), "Error: First ship should be printed.");
 		assertTrue(output().contains(ship2.toString()), "Error: Second ship should be printed.");
@@ -321,7 +321,7 @@ public class FleetTest {
 	@Test
 	@DisplayName("printShips não imprime nada com lista vazia")
 	void testPrintShipsEmptyList() {
-		fleet.printShips(new ArrayList<IShip>());
+		Fleet.printShips(new ArrayList<IShip>());
 		assertEquals("", output(), "Error: Nothing should be printed for an empty list.");
 	}
 
