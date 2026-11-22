@@ -99,6 +99,57 @@ public class Move implements IMove {
 		// Determinar número de tiros fora do tabuleiro (corrigido)
 		int outsideShots = Game.NUMBER_SHOTS - validShots - repeatedShots;
 
+		printVerboseSummary(verbose, validShots, repeatedShots, sunkBoatsCount, hitsPerBoat, missedShots, outsideShots);
+
+		// Criar o mapa para o JSON
+		Map<String, Object> response = new HashMap<>();
+		response.put("validShots", validShots);
+		response.put("outsideShots", outsideShots);
+		response.put("repeatedShots", repeatedShots);
+		response.put("missedShots", missedShots);
+
+		// Criar a lista de barcos afundados
+		List<Map<String, Object>> sunkBoats = new ArrayList<>();
+		for (Map.Entry<String, Integer> entry : sunkBoatsCount.entrySet()) {
+			Map<String, Object> boat = new HashMap<>();
+			boat.put("type", entry.getKey());
+			boat.put("count", entry.getValue());
+			sunkBoats.add(boat);
+		}
+		response.put("sunkBoats", sunkBoats);
+
+		// Criar a lista de acertos em barcos que não foram afundados
+		List<Map<String, Object>> boatHits = new ArrayList<>();
+		for (Map.Entry<String, Integer> entry : hitsPerBoat.entrySet()) {
+			if (!sunkBoatsCount.containsKey(entry.getKey())) {
+				Map<String, Object> boat = new HashMap<>();
+				boat.put("type", entry.getKey());
+				boat.put("hits", entry.getValue());
+				boatHits.add(boat);
+			}
+		}
+		response.put("hitsOnBoats", boatHits);
+
+		// Serializar o JSON utilizando Jackson
+		String jsonString;
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+		try {
+			jsonString = objectMapper.writeValueAsString(response);
+		} catch (JsonProcessingException e) {
+			throw new RuntimeException("Erro ao serializar o JSON dos resultados da jogada", e);
+		}
+
+		// Impressão da resposta formatada para interoperabilidade com o LLM
+		System.out.println("====== [JSON PARA O LLM] ======");
+		System.out.println(jsonString);
+		System.out.println("===============================\n");
+
+		return jsonString;
+	}
+
+	private void printVerboseSummary(boolean verbose, int validShots, int repeatedShots, Map<String, Integer> sunkBoatsCount, Map<String, Integer> hitsPerBoat, int missedShots, int outsideShots) {
 		if (verbose) {
 			// Construção da mensagem de saída
 			StringBuilder output = new StringBuilder();
@@ -154,52 +205,5 @@ public class Move implements IMove {
 			// Imprimir na consola se verbose for true
 			System.out.println("Jogada nº" + this.number + " -> " + output);
 		}
-
-		// Criar o mapa para o JSON
-		Map<String, Object> response = new HashMap<>();
-		response.put("validShots", validShots);
-		response.put("outsideShots", outsideShots);
-		response.put("repeatedShots", repeatedShots);
-		response.put("missedShots", missedShots);
-
-		// Criar a lista de barcos afundados
-		List<Map<String, Object>> sunkBoats = new ArrayList<>();
-		for (Map.Entry<String, Integer> entry : sunkBoatsCount.entrySet()) {
-			Map<String, Object> boat = new HashMap<>();
-			boat.put("type", entry.getKey());
-			boat.put("count", entry.getValue());
-			sunkBoats.add(boat);
-		}
-		response.put("sunkBoats", sunkBoats);
-
-		// Criar a lista de acertos em barcos que não foram afundados
-		List<Map<String, Object>> boatHits = new ArrayList<>();
-		for (Map.Entry<String, Integer> entry : hitsPerBoat.entrySet()) {
-			if (!sunkBoatsCount.containsKey(entry.getKey())) {
-				Map<String, Object> boat = new HashMap<>();
-				boat.put("type", entry.getKey());
-				boat.put("hits", entry.getValue());
-				boatHits.add(boat);
-			}
-		}
-		response.put("hitsOnBoats", boatHits);
-
-		// Serializar o JSON utilizando Jackson
-		String jsonString;
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-
-		try {
-			jsonString = objectMapper.writeValueAsString(response);
-		} catch (JsonProcessingException e) {
-			throw new RuntimeException("Erro ao serializar o JSON dos resultados da jogada", e);
-		}
-
-		// Impressão da resposta formatada para interoperabilidade com o LLM
-		System.out.println("====== [JSON PARA O LLM] ======");
-		System.out.println(jsonString);
-		System.out.println("===============================\n");
-
-		return jsonString;
 	}
 }
