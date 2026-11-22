@@ -137,16 +137,16 @@ public class Tasks {
 	 * Registers a game in the scoreboard. Misses are the valid shots that fell in the
 	 * water, i.e. all the shots fired minus hits, repeated shots and shots outside the board.
 	 *
-	 * @param game   the game to register
-	 * @param result one of the result constants in {@link ScoreboardEntry}
+	 * @param game       the game to register
+	 * @param gameResult one of the result constants in {@link ScoreboardEntry}
 	 */
-	private static void registerGame(IGame game, String result) {
+	private static void registerGame(IGame game, String gameResult) {
 		int moves = game.getAlienMoves().size();
 		int hits = game.getHits();
 		int repeated = game.getRepeatedShots();
 		int outside = game.getInvalidShots();
 		int misses = moves * Game.NUMBER_SHOTS - hits - repeated - outside;
-		new Scoreboard().record(result, moves, hits, misses, repeated, outside);
+		new Scoreboard().record(gameResult, moves, hits, misses, repeated, outside);
 	}
 
 	public static void menuHelp() {
