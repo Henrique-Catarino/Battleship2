@@ -213,22 +213,22 @@ public class Tasks {
 			throw new IllegalArgumentException("Nenhuma posição válida encontrada!");
 		}
 
-		String part1 = in.next();
+		String firstToken = in.next();
 		String part2 = null;
 
 		if (in.hasNextInt()) {
 			part2 = in.next();
 		}
 
-		String input = (part2 != null) ? part1 + part2 : part1;
+		String input = (part2 != null) ? firstToken + part2 : firstToken;
 		input = input.toUpperCase();
 
 		if (input.matches("[A-Z]\\d+")) {
 			char column = input.charAt(0);
 			int row = Integer.parseInt(input.substring(1));
 			return new Position(column, row);
-		} else if (part2 != null && part1.matches("[A-Z]") && part2.matches("\\d+")) {
-			char column = part1.charAt(0);
+		} else if (part2 != null && firstToken.matches("[A-Z]") && part2.matches("\\d+")) {
+			char column = firstToken.charAt(0);
 			int row = Integer.parseInt(part2);
 			return new Position(column, row);
 		} else {
