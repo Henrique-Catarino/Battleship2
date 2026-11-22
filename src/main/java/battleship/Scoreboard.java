@@ -30,6 +30,7 @@ public class Scoreboard {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Type LIST_TYPE = new TypeToken<List<ScoreboardEntry>>() {}.getType();
     private static final Locale PT = Locale.of("pt", "PT");
+    public static final String X = "==========================================";
 
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final Path file;
@@ -47,13 +48,17 @@ public class Scoreboard {
 
         /** @return hits as a percentage of valid shots, or 0 if there are none */
         public double hitRate() {
-            int valid = hits + misses;
+            int valid = getValid();
             return valid == 0 ? 0 : 100.0 * hits / valid;
+        }
+
+        private int getValid() {
+            return hits + misses;
         }
 
         /** @return misses as a percentage of valid shots, or 0 if there are none */
         public double missRate() {
-            int valid = hits + misses;
+            int valid = getValid();
             return valid == 0 ? 0 : 100.0 * misses / valid;
         }
 
@@ -121,30 +126,24 @@ public class Scoreboard {
     /**
      * Registers a game played today.
      *
-     * @param result   one of the result constants in {@link ScoreboardEntry}
-     * @param moves    number of bursts fired
-     * @param hits     valid shots that hit a ship
-     * @param misses   valid shots that fell in the water
-     * @param repeated shots at positions already hit
-     * @param outside  shots outside the board
-     * @return true if the entry was saved
+     * @param gameRecord@return true if the entry was saved
      */
-    public boolean record(String result, int moves, int hits, int misses, int repeated, int outside) {
-        return add(new ScoreboardEntry(LocalDate.now().toString(), result,
-                moves, hits, misses, repeated, outside));
+    public boolean record(GameRecord gameRecord) {
+        return add(new ScoreboardEntry(LocalDate.now().toString(), gameRecord.result(),
+                gameRecord.moves(), gameRecord.hits(), gameRecord.misses(), gameRecord.repeated(), gameRecord.outside()));
     }
 
     /**
      * Returns the best games: only victories, ordered by the fewest moves.
      *
-     * @param n maximum number of games to return
+     * @param limit maximum number of games to return
      * @return the best games, best first
      */
-    public List<ScoreboardEntry> top(int n) {
+    public List<ScoreboardEntry> top(int limit) {
         return load().stream()
                 .filter(e -> ScoreboardEntry.VICTORY.equals(e.result()))
                 .sorted(Comparator.comparingInt(ScoreboardEntry::moves))
-                .limit(n)
+                .limit(limit)
                 .toList();
     }
 
@@ -178,7 +177,7 @@ public class Scoreboard {
         System.out.println("=============== SCOREBOARD ===============");
         if (stats.games() == 0) {
             System.out.println("Ainda não há jogos registados.");
-            System.out.println("==========================================");
+            System.out.println(X);
             return;
         }
         System.out.printf(PT, "%-3s %-11s %8s %8s %6s  %s%n",
@@ -192,6 +191,6 @@ public class Scoreboard {
                 stats.games(), stats.winRate());
         System.out.printf(PT, "Taxa de acerto: %.1f%% | Taxa de tiros na água: %.1f%%%n",
                 stats.hitRate(), stats.missRate());
-        System.out.println("==========================================");
+        System.out.println(X);
     }
 }

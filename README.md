@@ -57,6 +57,19 @@ Hits are calculated based on the intersection of the shot vector and the ship's 
 
 ---
 
+## 🔄 Integração Contínua (GitHub Actions)
+
+![Java CI with Maven](https://github.com/Henrique-Catarino/Battleship2/actions/workflows/maven.yml/badge.svg)
+
+O workflow `.github/workflows/maven.yml` compila o projeto e executa a bateria de testes unitários (JUnit) automaticamente.
+
+- **Quando corre:** em cada `push` para qualquer ramo e em cada Pull Request para o `main`.
+- **O que faz:** instala o JDK 21 (Temurin), restaura a cache do Maven e executa `mvn -B verify`, que compila e corre os testes.
+- **Como ver o resultado:** separador *Actions* do repositório. Um visto verde significa que a compilação e todos os testes passaram.
+- **Convenção de testes:** o Maven Surefire só executa classes cujo nome termina em `Test` (por exemplo, `FleetTest`).
+
+---
+
 ## 🚀 Installation & Setup
 
 ### Prerequisites
