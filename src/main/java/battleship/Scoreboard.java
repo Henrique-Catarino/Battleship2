@@ -47,13 +47,17 @@ public class Scoreboard {
 
         /** @return hits as a percentage of valid shots, or 0 if there are none */
         public double hitRate() {
-            int valid = hits + misses;
+            int valid = getValid();
             return valid == 0 ? 0 : 100.0 * hits / valid;
+        }
+
+        private int getValid() {
+            return hits + misses;
         }
 
         /** @return misses as a percentage of valid shots, or 0 if there are none */
         public double missRate() {
-            int valid = hits + misses;
+            int valid = getValid();
             return valid == 0 ? 0 : 100.0 * misses / valid;
         }
 
