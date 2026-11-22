@@ -149,7 +149,8 @@ public class Tasks {
 		int repeated = game.getRepeatedShots();
 		int outside = game.getInvalidShots();
 		int misses = moves * Game.NUMBER_SHOTS - hits - repeated - outside;
-		new Scoreboard().record(gameResult, moves, hits, misses, repeated, outside);
+
+		new Scoreboard().record(new GameRecord(gameResult, moves, hits, misses, repeated, outside));
 	}
 
 	public static void menuHelp() {
