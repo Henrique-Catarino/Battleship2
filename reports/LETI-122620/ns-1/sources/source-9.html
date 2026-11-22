@@ -1,0 +1,178 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GameTimer</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">battleship</a>
+</div>
+
+<h1>Coverage Summary for Class: GameTimer (battleship)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameTimer</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (30/30)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package battleship;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.time.StopWatch;
+&nbsp;import java.util.concurrent.TimeUnit;
+&nbsp;
+&nbsp;public class GameTimer {
+&nbsp;    private final StopWatch totalWatch;
+&nbsp;    private final StopWatch turnWatch;
+&nbsp;    private int totalTurns;
+&nbsp;
+<b class="fc">&nbsp;    public GameTimer() {</b>
+<b class="fc">&nbsp;        this.totalWatch = new StopWatch();</b>
+<b class="fc">&nbsp;        this.turnWatch = new StopWatch();</b>
+<b class="fc">&nbsp;        this.totalTurns = 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void startGame() {
+<b class="fc">&nbsp;        totalWatch.reset();</b>
+<b class="fc">&nbsp;        totalWatch.start();</b>
+<b class="fc">&nbsp;        startTurn();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void startTurn() {
+<b class="fc">&nbsp;        turnWatch.reset();</b>
+<b class="fc">&nbsp;        turnWatch.start();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void endTurn() {
+<b class="fc">&nbsp;        if (turnWatch.isStarted()) {</b>
+<b class="fc">&nbsp;            turnWatch.stop();</b>
+<b class="fc">&nbsp;            totalTurns++;</b>
+<b class="fc">&nbsp;            long seconds = turnWatch.getTime(TimeUnit.SECONDS);</b>
+<b class="fc">&nbsp;            if (seconds &gt; 30) {</b>
+<b class="fc">&nbsp;                System.out.printf(&quot;[AVISO DE TEMPO] Demorou %d segundos a disparar! Seja mais rápido na próxima jogada.%n&quot;, seconds);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void showStatus() {
+<b class="fc">&nbsp;        long totalSec = totalWatch.isStarted() ? totalWatch.getTime(TimeUnit.SECONDS) : 0;</b>
+<b class="fc">&nbsp;        long turnSec = turnWatch.isStarted() ? turnWatch.getTime(TimeUnit.SECONDS) : 0;</b>
+<b class="fc">&nbsp;        double avgSec = totalTurns &gt; 0 ? (double) totalSec / totalTurns : 0.0;</b>
+&nbsp;
+<b class="fc">&nbsp;        System.out.println(&quot;========== ESTATÍSTICAS DE TEMPO ==========&quot;);</b>
+<b class="fc">&nbsp;        System.out.printf(&quot;Tempo no turno atual: %d s%n&quot;, turnSec);</b>
+<b class="fc">&nbsp;        System.out.printf(&quot;Tempo total de jogo:  %d s%n&quot;, totalSec);</b>
+<b class="fc">&nbsp;        System.out.printf(&quot;Tempo médio / rajada: %.1f s (%d jogadas)%n&quot;, avgSec, totalTurns);</b>
+<b class="fc">&nbsp;        System.out.println(&quot;===========================================&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void showFinalSummary() {
+<b class="fc">&nbsp;        if (totalWatch.isStarted()) {</b>
+<b class="fc">&nbsp;            totalWatch.stop();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        long totalSec = totalWatch.getTime(TimeUnit.SECONDS);</b>
+<b class="fc">&nbsp;        double avgSec = totalTurns &gt; 0 ? (double) totalSec / totalTurns : 0.0;</b>
+&nbsp;
+<b class="fc">&nbsp;        System.out.println(&quot;\n[RESUMO FINAL DE TEMPO]&quot;);</b>
+<b class="fc">&nbsp;        System.out.printf(&quot;Duração da partida: %d segundos%n&quot;, totalSec);</b>
+<b class="fc">&nbsp;        System.out.printf(&quot;Média por jogada:   %.1f segundos (%d jogadas efetuadas)%n&quot;, avgSec, totalTurns);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-11-22 17:53</div>
+</div>
+</body>
+</html>

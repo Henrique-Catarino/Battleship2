@@ -1,0 +1,374 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Scoreboard</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">battleship</a>
+</div>
+
+<h1>Coverage Summary for Class: Scoreboard (battleship)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Scoreboard</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (54/54)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Scoreboard$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Scoreboard$Stats</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (20/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (61/61)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package battleship;
+&nbsp;
+&nbsp;import com.google.gson.Gson;
+&nbsp;import com.google.gson.GsonBuilder;
+&nbsp;import com.google.gson.JsonSyntaxException;
+&nbsp;import com.google.gson.reflect.TypeToken;
+&nbsp;import org.apache.logging.log4j.LogManager;
+&nbsp;import org.apache.logging.log4j.Logger;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.lang.reflect.Type;
+&nbsp;import java.nio.charset.StandardCharsets;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Comparator;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Locale;
+&nbsp;
+&nbsp;/**
+&nbsp; * Keeps the results of past games in a JSON file (read and written with Gson)
+&nbsp; * and shows the best games plus global statistics.
+&nbsp; */
+&nbsp;public class Scoreboard {
+&nbsp;
+&nbsp;    /** Default location of the scoreboard file. */
+&nbsp;    public static final String DEFAULT_FILE = &quot;data/scoreboard.json&quot;;
+&nbsp;
+<b class="fc">&nbsp;    private static final Logger LOGGER = LogManager.getLogger();</b>
+<b class="fc">&nbsp;    private static final Type LIST_TYPE = new TypeToken&lt;List&lt;ScoreboardEntry&gt;&gt;() {}.getType();</b>
+<b class="fc">&nbsp;    private static final Locale PT = Locale.of(&quot;pt&quot;, &quot;PT&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();</b>
+&nbsp;    private final Path file;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Global statistics over all the games in the scoreboard.
+&nbsp;     * Hit and miss rates are computed over valid shots only.
+&nbsp;     *
+&nbsp;     * @param games  number of games registered
+&nbsp;     * @param wins   number of games won
+&nbsp;     * @param hits   total valid shots that hit a ship
+&nbsp;     * @param misses total valid shots that fell in the water
+&nbsp;     */
+<b class="fc">&nbsp;    public record Stats(int games, int wins, int hits, int misses) {</b>
+&nbsp;
+&nbsp;        /** @return hits as a percentage of valid shots, or 0 if there are none */
+&nbsp;        public double hitRate() {
+<b class="fc">&nbsp;            int valid = hits + misses;</b>
+<b class="fc">&nbsp;            return valid == 0 ? 0 : 100.0 * hits / valid;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /** @return misses as a percentage of valid shots, or 0 if there are none */
+&nbsp;        public double missRate() {
+<b class="fc">&nbsp;            int valid = hits + misses;</b>
+<b class="fc">&nbsp;            return valid == 0 ? 0 : 100.0 * misses / valid;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /** @return wins as a percentage of registered games, or 0 if there are none */
+&nbsp;        public double winRate() {
+<b class="fc">&nbsp;            return games == 0 ? 0 : 100.0 * wins / games;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /** Creates a scoreboard that uses {@link #DEFAULT_FILE}. */
+&nbsp;    public Scoreboard() {
+<b class="fc">&nbsp;        this(Path.of(DEFAULT_FILE));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Creates a scoreboard that uses the given file.
+&nbsp;     *
+&nbsp;     * @param file the JSON file where entries are stored
+&nbsp;     */
+<b class="fc">&nbsp;    public Scoreboard(Path file) {</b>
+<b class="fc">&nbsp;        this.file = file;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Reads all entries from the file.
+&nbsp;     *
+&nbsp;     * @return the stored entries, or an empty list if the file is missing or unreadable
+&nbsp;     */
+&nbsp;    public List&lt;ScoreboardEntry&gt; load() {
+<b class="fc">&nbsp;        if (!Files.exists(file)) {</b>
+<b class="fc">&nbsp;            return new ArrayList&lt;&gt;();</b>
+&nbsp;        }
+&nbsp;        try {
+<b class="fc">&nbsp;            String json = Files.readString(file, StandardCharsets.UTF_8);</b>
+<b class="fc">&nbsp;            List&lt;ScoreboardEntry&gt; entries = gson.fromJson(json, LIST_TYPE);</b>
+<b class="fc">&nbsp;            return entries != null ? new ArrayList&lt;&gt;(entries) : new ArrayList&lt;&gt;();</b>
+&nbsp;        } catch (IOException | JsonSyntaxException e) {
+<b class="fc">&nbsp;            LOGGER.warn(&quot;Could not read scoreboard {}: {}&quot;, file, e.getMessage());</b>
+<b class="fc">&nbsp;            return new ArrayList&lt;&gt;();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Appends an entry and saves the file.
+&nbsp;     *
+&nbsp;     * @param entry the game to register
+&nbsp;     * @return true if the entry was saved
+&nbsp;     */
+&nbsp;    public boolean add(ScoreboardEntry entry) {
+<b class="fc">&nbsp;        List&lt;ScoreboardEntry&gt; entries = load();</b>
+<b class="fc">&nbsp;        entries.add(entry);</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            Path parent = file.getParent();</b>
+<b class="fc">&nbsp;            if (parent != null) {</b>
+<b class="fc">&nbsp;                Files.createDirectories(parent);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            Files.writeString(file, gson.toJson(entries, LIST_TYPE), StandardCharsets.UTF_8);</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        } catch (IOException e) {
+<b class="fc">&nbsp;            LOGGER.error(&quot;Could not save scoreboard {}: {}&quot;, file, e.getMessage());</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Registers a game played today.
+&nbsp;     *
+&nbsp;     * @param result   one of the result constants in {@link ScoreboardEntry}
+&nbsp;     * @param moves    number of bursts fired
+&nbsp;     * @param hits     valid shots that hit a ship
+&nbsp;     * @param misses   valid shots that fell in the water
+&nbsp;     * @param repeated shots at positions already hit
+&nbsp;     * @param outside  shots outside the board
+&nbsp;     * @return true if the entry was saved
+&nbsp;     */
+&nbsp;    public boolean record(String result, int moves, int hits, int misses, int repeated, int outside) {
+<b class="fc">&nbsp;        return add(new ScoreboardEntry(LocalDate.now().toString(), result,</b>
+&nbsp;                moves, hits, misses, repeated, outside));
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the best games: only victories, ordered by the fewest moves.
+&nbsp;     *
+&nbsp;     * @param n maximum number of games to return
+&nbsp;     * @return the best games, best first
+&nbsp;     */
+&nbsp;    public List&lt;ScoreboardEntry&gt; top(int n) {
+<b class="fc">&nbsp;        return load().stream()</b>
+<b class="fc">&nbsp;                .filter(e -&gt; ScoreboardEntry.VICTORY.equals(e.result()))</b>
+<b class="fc">&nbsp;                .sorted(Comparator.comparingInt(ScoreboardEntry::moves))</b>
+<b class="fc">&nbsp;                .limit(n)</b>
+<b class="fc">&nbsp;                .toList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Computes the global statistics over all stored games.
+&nbsp;     *
+&nbsp;     * @return the statistics
+&nbsp;     */
+&nbsp;    public Stats stats() {
+<b class="fc">&nbsp;        List&lt;ScoreboardEntry&gt; entries = load();</b>
+<b class="fc">&nbsp;        int wins = 0;</b>
+<b class="fc">&nbsp;        int hits = 0;</b>
+<b class="fc">&nbsp;        int misses = 0;</b>
+<b class="fc">&nbsp;        for (ScoreboardEntry e : entries) {</b>
+<b class="fc">&nbsp;            if (ScoreboardEntry.VICTORY.equals(e.result())) {</b>
+<b class="fc">&nbsp;                wins++;</b>
+&nbsp;            }
+<b class="fc">&nbsp;            hits += e.hits();</b>
+<b class="fc">&nbsp;            misses += e.misses();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return new Stats(entries.size(), wins, hits, misses);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Prints the best games and the global statistics to the console.
+&nbsp;     *
+&nbsp;     * @param n maximum number of games to list
+&nbsp;     */
+&nbsp;    public void print(int n) {
+<b class="fc">&nbsp;        Stats stats = stats();</b>
+<b class="fc">&nbsp;        System.out.println(&quot;=============== SCOREBOARD ===============&quot;);</b>
+<b class="fc">&nbsp;        if (stats.games() == 0) {</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Ainda não há jogos registados.&quot;);</b>
+<b class="fc">&nbsp;            System.out.println(&quot;==========================================&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="fc">&nbsp;        System.out.printf(PT, &quot;%-3s %-11s %8s %8s %6s  %s%n&quot;,</b>
+&nbsp;                &quot;#&quot;, &quot;Data&quot;, &quot;Jogadas&quot;, &quot;Acertos&quot;, &quot;Água&quot;, &quot;Resultado&quot;);
+<b class="fc">&nbsp;        int rank = 1;</b>
+<b class="fc">&nbsp;        for (ScoreboardEntry e : top(n)) {</b>
+<b class="fc">&nbsp;            System.out.printf(PT, &quot;%-3d %-11s %8d %8d %6d  %s%n&quot;,</b>
+<b class="fc">&nbsp;                    rank++, e.date(), e.moves(), e.hits(), e.misses(), e.result());</b>
+&nbsp;        }
+<b class="fc">&nbsp;        System.out.printf(PT, &quot;%nJogos: %d | Taxa de vitória: %.1f%%%n&quot;,</b>
+<b class="fc">&nbsp;                stats.games(), stats.winRate());</b>
+<b class="fc">&nbsp;        System.out.printf(PT, &quot;Taxa de acerto: %.1f%% | Taxa de tiros na água: %.1f%%%n&quot;,</b>
+<b class="fc">&nbsp;                stats.hitRate(), stats.missRate());</b>
+<b class="fc">&nbsp;        System.out.println(&quot;==========================================&quot;);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-11-22 17:53</div>
+</div>
+</body>
+</html>
