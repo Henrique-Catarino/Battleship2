@@ -34,5 +34,14 @@
     "misses": 1,
     "repeated": 0,
     "outside": 0
+  },
+  {
+    "date": "2026-11-22",
+    "result": "ABANDONADO",
+    "moves": 1,
+    "hits": 0,
+    "misses": 3,
+    "repeated": 0,
+    "outside": 0
   }
 ]

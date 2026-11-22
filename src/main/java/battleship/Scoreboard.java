@@ -30,6 +30,7 @@ public class Scoreboard {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Type LIST_TYPE = new TypeToken<List<ScoreboardEntry>>() {}.getType();
     private static final Locale PT = Locale.of("pt", "PT");
+    public static final String X = "==========================================";
 
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final Path file;
@@ -182,7 +183,7 @@ public class Scoreboard {
         System.out.println("=============== SCOREBOARD ===============");
         if (stats.games() == 0) {
             System.out.println("Ainda não há jogos registados.");
-            System.out.println("==========================================");
+            System.out.println(X);
             return;
         }
         System.out.printf(PT, "%-3s %-11s %8s %8s %6s  %s%n",
@@ -196,6 +197,6 @@ public class Scoreboard {
                 stats.games(), stats.winRate());
         System.out.printf(PT, "Taxa de acerto: %.1f%% | Taxa de tiros na água: %.1f%%%n",
                 stats.hitRate(), stats.missRate());
-        System.out.println("==========================================");
+        System.out.println(X);
     }
 }
