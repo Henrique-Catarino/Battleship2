@@ -66,14 +66,7 @@ public class Tasks {
 						myFleet.printStatus();
 						game.printMyBoard(true, false);
 
-						if (game.getRemainingShips() == 0) {
-							gameTimer.endTurn();
-							gameTimer.showFinalSummary();
-							registerGame(game, ScoreboardEntry.VICTORY);
-							game.over();
-							PdfPrinter.generatePdf(game);
-							System.exit(0);
-						}
+						handleVictory(game, gameTimer);
 						gameTimer.endTurn();
 					}
 					break;
@@ -131,6 +124,17 @@ public class Tasks {
 		if (game != null)
 			PdfPrinter.generatePdf(game);
 		System.out.println(GOODBYE_MESSAGE);
+	}
+
+	private static void handleVictory(IGame game, GameTimer gameTimer) {
+		if (game.getRemainingShips() == 0) {
+			gameTimer.endTurn();
+			gameTimer.showFinalSummary();
+			registerGame(game, ScoreboardEntry.VICTORY);
+			game.over();
+			PdfPrinter.generatePdf(game);
+			System.exit(0);
+		}
 	}
 
 	/**
