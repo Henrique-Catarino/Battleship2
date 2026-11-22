@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
  * Test class for Game.
@@ -368,7 +367,7 @@ public class GameTest {
 	void testJsonShots() throws Exception {
 		List<IPosition> shots = List.of(new Position(0, 0), new Position(3, 4), new Position(9, 9));
 
-		String json = Game.jsonShots(shots);
+		String json = Tasks.jsonShots(shots);
 		JsonNode root = new ObjectMapper().readTree(json);
 
 		assertTrue(root.isArray());
@@ -382,7 +381,7 @@ public class GameTest {
 	@Test
 	@DisplayName("jsonShots com lista vazia devolve um array vazio")
 	void testJsonShotsEmpty() throws Exception {
-		JsonNode root = new ObjectMapper().readTree(Game.jsonShots(new ArrayList<>()));
+		JsonNode root = new ObjectMapper().readTree(Tasks.jsonShots(new ArrayList<>()));
 
 		assertTrue(root.isArray());
 		assertEquals(0, root.size());
@@ -391,7 +390,7 @@ public class GameTest {
 	@Test
 	@DisplayName("jsonShots rejeita null (assertions ativas)")
 	void testJsonShotsNull() {
-		assertThrows(AssertionError.class, () -> Game.jsonShots(null));
+		assertThrows(AssertionError.class, () -> Tasks.jsonShots(null));
 	}
 
 	// ------------------------------------------------------------------
