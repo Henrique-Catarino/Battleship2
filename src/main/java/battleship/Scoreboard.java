@@ -142,14 +142,14 @@ public class Scoreboard {
     /**
      * Returns the best games: only victories, ordered by the fewest moves.
      *
-     * @param n maximum number of games to return
+     * @param limit maximum number of games to return
      * @return the best games, best first
      */
-    public List<ScoreboardEntry> top(int n) {
+    public List<ScoreboardEntry> top(int limit) {
         return load().stream()
                 .filter(e -> ScoreboardEntry.VICTORY.equals(e.result()))
                 .sorted(Comparator.comparingInt(ScoreboardEntry::moves))
-                .limit(n)
+                .limit(limit)
                 .toList();
     }
 
