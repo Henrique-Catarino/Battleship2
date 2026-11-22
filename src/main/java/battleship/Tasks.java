@@ -140,16 +140,17 @@ public class Tasks {
 	 * Registers a game in the scoreboard. Misses are the valid shots that fell in the
 	 * water, i.e. all the shots fired minus hits, repeated shots and shots outside the board.
 	 *
-	 * @param game   the game to register
-	 * @param result one of the result constants in {@link ScoreboardEntry}
+	 * @param game       the game to register
+	 * @param gameResult one of the result constants in {@link ScoreboardEntry}
 	 */
-	private static void registerGame(IGame game, String result) {
+	private static void registerGame(IGame game, String gameResult) {
 		int moves = game.getAlienMoves().size();
 		int hits = game.getHits();
 		int repeated = game.getRepeatedShots();
 		int outside = game.getInvalidShots();
 		int misses = moves * Game.NUMBER_SHOTS - hits - repeated - outside;
-		new Scoreboard().record(new GameRecord(result, moves, hits, misses, repeated, outside));
+
+		new Scoreboard().record(new GameRecord(gameResult, moves, hits, misses, repeated, outside));
 	}
 
 	public static void menuHelp() {
@@ -216,22 +217,22 @@ public class Tasks {
 			throw new IllegalArgumentException("Nenhuma posição válida encontrada!");
 		}
 
-		String part1 = in.next();
+		String firstToken = in.next();
 		String part2 = null;
 
 		if (in.hasNextInt()) {
 			part2 = in.next();
 		}
 
-		String input = (part2 != null) ? part1 + part2 : part1;
+		String input = (part2 != null) ? firstToken + part2 : firstToken;
 		input = input.toUpperCase();
 
 		if (input.matches("[A-Z]\\d+")) {
 			char column = input.charAt(0);
 			int row = Integer.parseInt(input.substring(1));
 			return new Position(column, row);
-		} else if (part2 != null && part1.matches("[A-Z]") && part2.matches("\\d+")) {
-			char column = part1.charAt(0);
+		} else if (part2 != null && firstToken.matches("[A-Z]") && part2.matches("\\d+")) {
+			char column = firstToken.charAt(0);
 			int row = Integer.parseInt(part2);
 			return new Position(column, row);
 		} else {
