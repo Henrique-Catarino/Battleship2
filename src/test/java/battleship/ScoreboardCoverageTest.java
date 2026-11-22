@@ -145,7 +145,7 @@ class ScoreboardCoverageTest {
     @Test
     @DisplayName("record regista um jogo com a data de hoje")
     void recordStoresGameWithTodaysDate() {
-        assertTrue(board.record(ScoreboardEntry.VICTORY, 12, 8, 20, 1, 2));
+        assertTrue(board.record(new GameRecord(ScoreboardEntry.VICTORY, 12, 8, 20, 1, 2)));
         List<ScoreboardEntry> entries = board.load();
         assertEquals(1, entries.size());
         ScoreboardEntry e = entries.get(0);

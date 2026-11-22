@@ -126,17 +126,11 @@ public class Scoreboard {
     /**
      * Registers a game played today.
      *
-     * @param result   one of the result constants in {@link ScoreboardEntry}
-     * @param moves    number of bursts fired
-     * @param hits     valid shots that hit a ship
-     * @param misses   valid shots that fell in the water
-     * @param repeated shots at positions already hit
-     * @param outside  shots outside the board
-     * @return true if the entry was saved
+     * @param gameRecord@return true if the entry was saved
      */
-    public boolean record(String result, int moves, int hits, int misses, int repeated, int outside) {
-        return add(new ScoreboardEntry(LocalDate.now().toString(), result,
-                moves, hits, misses, repeated, outside));
+    public boolean record(GameRecord gameRecord) {
+        return add(new ScoreboardEntry(LocalDate.now().toString(), gameRecord.result(),
+                gameRecord.moves(), gameRecord.hits(), gameRecord.misses(), gameRecord.repeated(), gameRecord.outside()));
     }
 
     /**
