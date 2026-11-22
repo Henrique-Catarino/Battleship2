@@ -11,7 +11,7 @@ public class GameTimer {
     public GameTimer() {
         this.totalWatch = new StopWatch();
         this.turnWatch = new StopWatch();
-        this.totalTurns = 0;
+        this.setTotalTurns(0);
     }
 
     public void startGame() {
@@ -28,7 +28,7 @@ public class GameTimer {
     public void endTurn() {
         if (turnWatch.isStarted()) {
             turnWatch.stop();
-            totalTurns++;
+            setTotalTurns(getTotalTurns() + 1);
             long seconds = turnWatch.getTime(TimeUnit.SECONDS);
             if (seconds > 30) {
                 System.out.printf("[AVISO DE TEMPO] Demorou %d segundos a disparar! Seja mais rápido na próxima jogada.%n", seconds);
@@ -43,7 +43,7 @@ public class GameTimer {
         System.out.println("========== ESTATÍSTICAS DE TEMPO ==========");
         System.out.printf("Tempo no turno atual: %d s%n", turnSec);
         System.out.printf("Tempo total de jogo:  %d s%n", totalSec);
-        System.out.printf("Tempo médio / rajada: %.1f s (%d jogadas)%n", totalTurns > 0 ? (double) totalSec / totalTurns : 0.0, totalTurns);
+        System.out.printf("Tempo médio / rajada: %.1f s (%d jogadas)%n", getTotalTurns() > 0 ? (double) totalSec / getTotalTurns() : 0.0, getTotalTurns());
         System.out.println("===========================================");
     }
 
@@ -52,10 +52,18 @@ public class GameTimer {
             totalWatch.stop();
         }
         long totalSec = totalWatch.getTime(TimeUnit.SECONDS);
-        double avgSec = totalTurns > 0 ? (double) totalSec / totalTurns : 0.0;
+        double avgSec = getTotalTurns() > 0 ? (double) totalSec / getTotalTurns() : 0.0;
 
         System.out.println("\n[RESUMO FINAL DE TEMPO]");
         System.out.printf("Duração da partida: %d segundos%n", totalSec);
-        System.out.printf("Média por jogada:   %.1f segundos (%d jogadas efetuadas)%n", avgSec, totalTurns);
+        System.out.printf("Média por jogada:   %.1f segundos (%d jogadas efetuadas)%n", avgSec, getTotalTurns());
+    }
+
+    public int getTotalTurns() {
+        return totalTurns;
+    }
+
+    public void setTotalTurns(int totalTurns) {
+        this.totalTurns = totalTurns;
     }
 }
