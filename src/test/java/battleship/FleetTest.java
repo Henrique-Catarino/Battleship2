@@ -197,8 +197,8 @@ public class FleetTest {
 	 */
 	@Test
 	@DisplayName("colisionRisk (privado) deteta navios sobrepostos")
-	void testColisionRisk() throws Exception {
-		var method = Fleet.class.getDeclaredMethod("colisionRisk", IShip.class);
+	void testCollisionRisk() throws Exception {
+		var method = Fleet.class.getDeclaredMethod("collisionRisk", IShip.class);
 		method.setAccessible(true);
 
 		IShip ship1 = new Barge(Compass.NORTH, new Position(1, 1));
@@ -265,8 +265,8 @@ public class FleetTest {
 
 	@Test
 	@DisplayName("colisionRisk (privado) rejeita null (assertions ativas)")
-	void testColisionRiskNull() throws Exception {
-		var method = Fleet.class.getDeclaredMethod("colisionRisk", IShip.class);
+	void testCollisionRiskNull() throws Exception {
+		var method = Fleet.class.getDeclaredMethod("collisionRisk", IShip.class);
 		method.setAccessible(true);
 
 		InvocationTargetException ex = assertThrows(InvocationTargetException.class,
@@ -277,7 +277,7 @@ public class FleetTest {
 	@Test
 	@DisplayName("printShips rejeita lista null (assertions ativas)")
 	void testPrintShipsNull() {
-		assertThrows(AssertionError.class, () -> fleet.printShips(null));
+		assertThrows(AssertionError.class, () -> Fleet.printShips(null));
 	}
 
 	@Test
@@ -312,7 +312,7 @@ public class FleetTest {
 		fleet.addShip(ship1);
 		fleet.addShip(ship2);
 
-		fleet.printShips(fleet.getShips());
+		Fleet.printShips(fleet.getShips());
 
 		assertTrue(output().contains(ship1.toString()), "Error: First ship should be printed.");
 		assertTrue(output().contains(ship2.toString()), "Error: Second ship should be printed.");
@@ -321,7 +321,7 @@ public class FleetTest {
 	@Test
 	@DisplayName("printShips não imprime nada com lista vazia")
 	void testPrintShipsEmptyList() {
-		fleet.printShips(new ArrayList<IShip>());
+		Fleet.printShips(new ArrayList<IShip>());
 		assertEquals("", output(), "Error: Nothing should be printed for an empty list.");
 	}
 
