@@ -197,8 +197,8 @@ public class FleetTest {
 	 */
 	@Test
 	@DisplayName("colisionRisk (privado) deteta navios sobrepostos")
-	void testColisionRisk() throws Exception {
-		var method = Fleet.class.getDeclaredMethod("colisionRisk", IShip.class);
+	void testCollisionRisk() throws Exception {
+		var method = Fleet.class.getDeclaredMethod("collisionRisk", IShip.class);
 		method.setAccessible(true);
 
 		IShip ship1 = new Barge(Compass.NORTH, new Position(1, 1));
@@ -265,8 +265,8 @@ public class FleetTest {
 
 	@Test
 	@DisplayName("colisionRisk (privado) rejeita null (assertions ativas)")
-	void testColisionRiskNull() throws Exception {
-		var method = Fleet.class.getDeclaredMethod("colisionRisk", IShip.class);
+	void testCollisionRiskNull() throws Exception {
+		var method = Fleet.class.getDeclaredMethod("collisionRisk", IShip.class);
 		method.setAccessible(true);
 
 		InvocationTargetException ex = assertThrows(InvocationTargetException.class,
