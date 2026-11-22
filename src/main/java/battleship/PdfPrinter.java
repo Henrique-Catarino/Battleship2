@@ -61,7 +61,8 @@ public class PdfPrinter {
             List<IMove> moves = game.getAlienMoves();
             for (IMove move : moves) {
                 // Nova página se necessário
-                if (y < MARGIN + LINE_HEIGHT * 4) {
+                float minPageY = MARGIN + LINE_HEIGHT * 4;
+                if (y < minPageY) {
                     content.close();
                     page = new PDPage(PDRectangle.A4);
                     document.addPage(page);

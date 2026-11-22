@@ -4,6 +4,7 @@ import org.apache.commons.lang3.time.StopWatch;
 import java.util.concurrent.TimeUnit;
 
 public class GameTimer {
+    public static final int MAX_TURN_SECONDS = 30;
     private final StopWatch totalWatch;
     private final StopWatch turnWatch;
     private int totalTurns;
@@ -30,7 +31,7 @@ public class GameTimer {
             turnWatch.stop();
             totalTurns++;
             long seconds = turnWatch.getTime(TimeUnit.SECONDS);
-            if (seconds > 30) {
+            if (seconds > MAX_TURN_SECONDS) {
                 System.out.printf("[AVISO DE TEMPO] Demorou %d segundos a disparar! Seja mais rápido na próxima jogada.%n", seconds);
             }
         }
