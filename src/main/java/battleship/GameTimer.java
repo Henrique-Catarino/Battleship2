@@ -4,7 +4,6 @@ import org.apache.commons.lang3.time.StopWatch;
 import java.util.concurrent.TimeUnit;
 
 public class GameTimer {
-    public static final int MAX_TURN_SECONDS = 30;
     private final StopWatch totalWatch;
     private final StopWatch turnWatch;
     private int totalTurns;
@@ -31,7 +30,7 @@ public class GameTimer {
             turnWatch.stop();
             totalTurns++;
             long seconds = turnWatch.getTime(TimeUnit.SECONDS);
-            if (seconds > MAX_TURN_SECONDS) {
+            if (seconds > 30) {
                 System.out.printf("[AVISO DE TEMPO] Demorou %d segundos a disparar! Seja mais rápido na próxima jogada.%n", seconds);
             }
         }
@@ -40,12 +39,11 @@ public class GameTimer {
     public void showStatus() {
         long totalSec = totalWatch.isStarted() ? totalWatch.getTime(TimeUnit.SECONDS) : 0;
         long turnSec = turnWatch.isStarted() ? turnWatch.getTime(TimeUnit.SECONDS) : 0;
-        double avgSec = totalTurns > 0 ? (double) totalSec / totalTurns : 0.0;
 
         System.out.println("========== ESTATÍSTICAS DE TEMPO ==========");
         System.out.printf("Tempo no turno atual: %d s%n", turnSec);
         System.out.printf("Tempo total de jogo:  %d s%n", totalSec);
-        System.out.printf("Tempo médio / rajada: %.1f s (%d jogadas)%n", avgSec, totalTurns);
+        System.out.printf("Tempo médio / rajada: %.1f s (%d jogadas)%n", totalTurns > 0 ? (double) totalSec / totalTurns : 0.0, totalTurns);
         System.out.println("===========================================");
     }
 
